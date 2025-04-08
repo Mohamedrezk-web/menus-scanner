@@ -2,10 +2,8 @@ import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
 
-import serviceAccount from '../../firebaseServiceAccountKey.json' assert { type: 'json' }; // Node.js 17.5+
-
 const app = initializeApp({
-  credential: cert(serviceAccount),
+  credential: cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)),
   storageBucket: 'gs://mr-menuz-scanner.firebasestorage.app',
 });
 
