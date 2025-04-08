@@ -1,0 +1,8 @@
+node_modules
+menuz
+menuz-gpt
+menuz-context
+menuz-GV-result
+menuz-categories
+.env
+firebaseServiceAccountKey.json
