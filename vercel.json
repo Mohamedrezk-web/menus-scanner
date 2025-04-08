@@ -12,7 +12,7 @@
       "dest": "src/server.js"
     }
   ],
-  "function": {
+  "functions": {
     "src/server.js": {
       "maxDuration": 60
     }
