@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import systemPrompt from '../constants/agi-prompts.js';
 async function callOpenAI(contexts) {
+  console.log('callOpenAI', contexts);
+
   const messages = [
     { role: 'system', content: systemPrompt },
     ...contexts.map((context) => ({ role: 'user', content: context })),

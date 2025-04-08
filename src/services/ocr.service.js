@@ -30,44 +30,38 @@ function combineVisionResponses(responses) {
   responses.forEach((response, index) => {
     const labels = response.labelAnnotations?.map((l) => l.description) || [];
 
-    // Build a more structured version of the text by traversing pages, blocks, paragraphs, words, etc.
     let structuredText = '';
     if (response.fullTextAnnotation?.pages) {
       for (const page of response.fullTextAnnotation.pages) {
         for (const block of page.blocks || []) {
           let blockText = '';
+
           for (const paragraph of block.paragraphs || []) {
             let paragraphText = '';
+
             for (const word of paragraph.words || []) {
               let wordText = '';
               for (const symbol of word.symbols || []) {
                 wordText += symbol.text;
               }
-              blockText += paragraphText.trim() + '\n';
+              // Accumulate each word into the paragraph
+              paragraphText += wordText;
             }
-            structuredText += blockText.trim() + '\n\n';
+
+            // After finishing the paragraph, add it to the block
+            blockText += paragraphText.trim() + '\n';
           }
+
+          // After finishing the block, add it to the structured text
+          structuredText += blockText.trim() + '\n\n';
         }
       }
-
-      const context = `Image labels: ${labels.join(
-        ', '
-      )}\nExtracted text (structured by paragraph):\n${structuredText}`.trim();
-
-      visionResults.push({
-        menu: menuId,
-        rawResponse: response,
-        labels,
-        structuredText,
-        context,
-        processingOrder: index,
-      });
     }
 
     const context = `
-    Image labels: ${labels.join(', ')}
-    Extracted text (structured by paragraph):
-    ${structuredText}
+Image labels: ${labels.join(', ')}
+Extracted text (structured by paragraph):
+${structuredText}
     `.trim();
 
     contexts.push(context);
@@ -76,4 +70,4 @@ function combineVisionResponses(responses) {
   return contexts;
 }
 
-export { createVisionRequest, callVisionAPIForImage, combineVisionResponses };
+export { callVisionAPIForImage, combineVisionResponses };
