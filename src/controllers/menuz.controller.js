@@ -43,8 +43,6 @@ const getById = async (req, res) => {
       };
     });
 
-    console.log(categories);
-
     return res.json(categories);
   } catch (error) {
     res.status(500).json({ error: 'Failed to load data' });

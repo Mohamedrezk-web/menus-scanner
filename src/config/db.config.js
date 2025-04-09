@@ -6,7 +6,7 @@ import { getStorage } from 'firebase-admin/storage';
 
 const app = initializeApp({
   credential: cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)),
-  storageBucket: 'gs://mr-menuz-scanner.firebasestorage.app',
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 });
 
 const db = getFirestore(app);
